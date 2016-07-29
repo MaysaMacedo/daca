@@ -11,4 +11,5 @@ public class HelloWildFlyController {
     public String sayHello(){
         return ("Hello, SpringBoot on Wildfly");
     }
+  
 }
