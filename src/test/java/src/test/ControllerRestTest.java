@@ -1,12 +1,9 @@
 package src.test;
 
-import static org.junit.Assert.*;
+import static com.jayway.restassured.RestAssured.given;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.jayway.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,16 +13,11 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
-
 import bootwildfly.Application;
 import bootwildfly.Problem;
 import bootwildfly.ProblemController;
 import bootwildfly.Solution;
 import bootwildfly.Teste;
-
-import org.junit.Test;
 
 @SpringApplicationConfiguration(classes=Application.class)
 @WebIntegrationTest("server.port=0")
@@ -45,7 +37,9 @@ public class ControllerRestTest {
 	private Solution solucao;
 
 
-	
+	/**
+	 * Cria objetos para uso nos testes antes de inicia-los. 
+	 */
 	@Before
 	public void prepara() {
 		String name = "Problema facil";
@@ -67,12 +61,21 @@ public class ControllerRestTest {
         this.solucao = new Solution(resultEntradaSaida);
 	}
 	
-    
+    /**
+     * Testa uma requisição GET consultando todos os problemas publicos
+     * ao usuario.
+     * @throws Exception
+     */
     @Test
     public void testGetAllPublicProblems() throws Exception {
     	given().when().get("/problem").then().statusCode(200);	
     }
     
+    /**
+     * Testa uma requisição GET consultando todos os testes publicos
+     * ao usuario.
+     * @throws Exception
+     */
     @Test
     public void testGetAllPublicTests() throws Exception {
     	problemController.addProblem(problema);
@@ -82,6 +85,11 @@ public class ControllerRestTest {
     	given().when().get("/problem/1/test").then().statusCode(200);
     }
     
+    /**
+     * Testa uma requisição GET consultando todas as soluções publicas
+     * ao usuario.
+     * @throws Exception
+     */
     @Test
     public void testGetAllPublicSolutions() throws Exception {
     	problemController.addProblem(problema);
@@ -89,6 +97,9 @@ public class ControllerRestTest {
     	given().when().get("/problem/1/solution").then().statusCode(200);
     }
     
+    /**
+     * Testa adicionar um problema aos problemas do usuario.
+     */
     @Test
     public void testAddProblem() {
     	
@@ -99,6 +110,9 @@ public class ControllerRestTest {
         .statusCode(200);
     }
     
+    /**
+     * Testa adicionar um teste a um problema do usuario.
+     */
     @Test
     public void testAddTestToProblem() {
     	
@@ -109,6 +123,9 @@ public class ControllerRestTest {
         .statusCode(200);
     }
     
+    /**
+     * Testa adicionar uma solução a um problema do usuario.
+     */
     @Test
     public void testAddSolutionToProblem() {
 
@@ -119,6 +136,10 @@ public class ControllerRestTest {
         .statusCode(200);
     }
     
+    /**
+     * Testa recuperar um problema pelo seu ID.
+     * @throws Exception
+     */
     @Test
     public void testGetProblemById() throws Exception {
     	problemController.addProblem(problema);
@@ -127,6 +148,10 @@ public class ControllerRestTest {
     	given().when().get("/problem/"+idProblem).then().statusCode(200);	
     }
     
+    /**
+     * Testa recuperar um teste pelo seu ID e do seu problema.
+     * @throws Exception
+     */
     @Test
     public void testGetTesteById() throws Exception {
     	problemController.addTeste(problema, teste);
@@ -136,6 +161,10 @@ public class ControllerRestTest {
     	given().when().get("/problem/"+idProblem+"/test/"+idTeste).then().statusCode(200);	
     }
     
+    /**
+     * Testa recuperar uma solução pelo seu ID e do seu problema.
+     * @throws Exception
+     */
     @Test
     public void testGetSolutionById() throws Exception {
     	problemController.addSolution(problema, solucao);
@@ -145,6 +174,10 @@ public class ControllerRestTest {
     	given().when().get("/problema/"+idProblem+" /solution/"+idSolution).then().statusCode(200);	
     }
     
+    /**
+     * Testa modificar um problema pelo seu ID.
+     * @throws Exception
+     */
     @Test
     public void testModifyProblemById() throws Exception {
     	problemController.addProblem(problema);
@@ -158,6 +191,10 @@ public class ControllerRestTest {
         .statusCode(200);
     }
     
+    /**
+     * Testa Modificar um teste pelo seu ID.
+     * @throws Exception
+     */
     @Test
     public void testModifyTestById() throws Exception {
     	problemController.addProblem(problema);

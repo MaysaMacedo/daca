@@ -1,6 +1,9 @@
 package bootwildfly;
 
-
+/**
+ * Classe que descreve um Problema do Sistema.
+ *
+ */
 public class Problem {
 	private String name;
 	private String description; 

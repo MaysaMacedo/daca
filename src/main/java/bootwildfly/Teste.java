@@ -1,5 +1,11 @@
 package bootwildfly;
 
+/**
+ * Classe que descreve os Testes do sistema.
+ * Os testes estão vinculados a um Problema, que faz uso do
+ * seu atributo de expectedOutput para julgar a Solução do usuario.  
+ *
+ */
 public class Teste {
 	
 	private String name;
