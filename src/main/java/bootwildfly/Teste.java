@@ -1,13 +1,13 @@
 package bootwildfly;
 
-public class Test {
+public class Teste {
 	
 	private String name;
 	private String tip;
 	private String input;
 	private String expectedOutput;
 	
-	public Test(String nome, String dica, String entrada, String saidaEsperada) {
+	public Teste(String nome, String dica, String entrada, String saidaEsperada) {
 		super();
 		this.name = nome;
 		this.tip = dica;
@@ -15,8 +15,10 @@ public class Test {
 		this.expectedOutput = saidaEsperada;
 	}
 	
-	public Test(){
+	public Teste(){
 		
 	}
+
+	
 
 }

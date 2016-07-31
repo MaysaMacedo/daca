@@ -15,8 +15,8 @@ public class ProblemController {
 	}
     
     @RequestMapping(value="/problem", method=RequestMethod.POST)
-	public Problem addProblem(@RequestBody Problem resource){
-    	return new Problem("nome", "descricao", "codigo");
+	public String addProblem(@RequestBody Problem resource){
+    	return "Problem added successfully";
 	}
     
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.GET)
@@ -25,33 +25,44 @@ public class ProblemController {
 	}
     
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.PUT)
-	public Problem modifyProblem(@PathVariable String problemid, @RequestBody Problem resource){
-    	return new Problem("nome", "descricao", "codigo");
+	public String modifyProblem(@PathVariable String problemid, @RequestBody Problem resource){
+    	return "Problem with id "+problemid+" modified";
 	}
     
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.GET)
-	public String getTestes(@PathVariable String problemid){
-    	return "Get some tests from problem =" + problemid;
+	public String getTests(@PathVariable String problemid){
+    	return "Get some tests from problem = " + problemid;
 	}
     
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
-	public String addTest(@RequestBody String resource){
-    	return "New teste added "+ resource;
+	public String addTeste(@RequestBody Problem problem, @RequestBody Teste teste){
+    	return "New teste added to problem "+problem.getCodigo();
+	}
+    
+    @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.GET)
+	public String getTeste(@PathVariable String problemid,@PathVariable String testid){
+    	return " Get a teste = "+ testid + " from problem = " + problemid;
 	}
     
     @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.PUT)
-	public String modifyTest(@PathVariable String problemid,@PathVariable String testid, @RequestBody String resource){
+	public String modifyTeste(@PathVariable String problemid,@PathVariable String testid, @RequestBody String resource){
     	return " Modify a teste = "+ testid + "from problem = " + problemid;
 	}
     
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.POST)
-	public String addSolution(@RequestBody String resource){
+	public String addSolution(@RequestBody Problem problema, @RequestBody Solution solucao){
     	return " Add a solution";
 	}
     
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.GET)
 	public String getSolutions(@PathVariable String problemid){
     	return " Get all solutions";
+	}
+    
+    
+    @RequestMapping(value="/problem/{problemid}/solution/{solutionId}", method=RequestMethod.GET)
+	public String getSolution(@PathVariable String problemid,@PathVariable String solutionId){
+    	return " Get a solution = "+ solutionId + " from problem = " + problemid;
 	}
 
 }
