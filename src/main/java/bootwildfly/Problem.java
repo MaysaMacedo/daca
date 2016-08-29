@@ -1,37 +1,38 @@
 package bootwildfly;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 /**
  * Classe que descreve um Problema do Sistema.
  *
  */
+@Entity
 public class Problem {
+	
+	@Id
+    @GeneratedValue
+    private String id;
+	
+	@Column
 	private String name;
-	private String description; 
-	private String code; 
-
-	public String getNome() {
-		return name;
-	}
-
-	public void setNome(String nome) {
-		this.name = nome;
-	}
-
-	public String getDescricao() {
-		return description;
-	}
-
-	public void setDescricao(String descricao) {
-		this.description = descricao;
-	}
-
-	public String getCodigo() {
-		return code;
-	}
-
-	public void setCodigo(String codigo) {
-		this.code = codigo;
-	}
+	
+	@Column
+	private String description;
+	
+	@Column
+	private String code;
+	
+	@Column
+	private String tip;
+	
+	@OneToMany
+	private List<Teste> tests; 
+	
 
 	public Problem(String nome, String descricao, String codigo) {
 		super();
@@ -40,10 +41,53 @@ public class Problem {
 		this.code = codigo;
 
 	}
-	
+
 	public Problem(){
-		
+
 	}
 
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String nome) {
+		this.name = nome;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String descricao) {
+		this.description = descricao;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String codigo) {
+		this.code = codigo;
+	}
+	
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
+	}
+
+	public List<Teste> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Teste> tests) {
+		this.tests = tests;
+	}
 
 }

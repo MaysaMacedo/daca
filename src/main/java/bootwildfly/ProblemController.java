@@ -1,12 +1,21 @@
 package bootwildfly;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
 
-import junit.framework.Test;
+
 
 /**
  * Classe que descreve as requisições REST do sistema.
@@ -15,14 +24,21 @@ import junit.framework.Test;
 @RestController
 public class ProblemController {
 	
+	@Autowired
+	ProblemService problemService;
+	protected static final String  DEFAULT_PAGE_SIZE = "100";
+    protected static final String DEFAULT_PAGE_NUM = "0";
+	
+	
 	/**
 	 * Faz uma consulta de todos os problemas do sistema.
 	 * @return 
 	 * 		String JSON com todos os problemas do sistemas publicos ao usuario.
 	 */
     @RequestMapping(value="/problem", method=RequestMethod.GET)
-	public String getProblems(){
-    	return "Get some problems";
+	public Page<Problem> getProblems( @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
+            @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
+    	return problemService.getAllProblems(page, size);
 	}
     
     /**
@@ -34,8 +50,11 @@ public class ProblemController {
      * 		
      */
     @RequestMapping(value="/problem", method=RequestMethod.POST)
-	public String addProblem(@RequestBody Problem problema){
-    	return "Problem added successfully";
+	public String addProblem(@RequestBody Problem problem ) {
+        
+        problemService.addProblem(problem);
+
+        return "creation successful: " + String.valueOf(problem.getId());
 	}
     
     /**
@@ -46,8 +65,8 @@ public class ProblemController {
      * 		String JSON com informações sobre o problema requerido.
      */
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.GET)
-	public String getProblem(@PathVariable String problemid){
-    	return "Get a specific problem with id = "+ problemid;
+	public Problem getProblem(@PathVariable String problemid){
+    	return problemService.getProblem(problemid);
 	}
     
     /**
@@ -60,8 +79,8 @@ public class ProblemController {
      * 		String JSON informando se o problema em questão foi modificado.
      */
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.PUT)
-	public String modifyProblem(@PathVariable String problemid, @RequestBody Problem problema){
-    	return "Problem with id "+problemid+" modified";
+	public void modifyProblem(@PathVariable String problemid, @RequestBody Problem problem){
+    	problemService.updateProblem(problem);   	
 	}
     
     /**
@@ -87,7 +106,7 @@ public class ProblemController {
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
 	public String addTeste(@RequestBody Problem problem, @RequestBody Teste teste){
-    	return "New teste added to problem "+problem.getCodigo();
+    	return "New teste added to problem "+problem.getCode();
 	}
     
     /**
@@ -114,7 +133,7 @@ public class ProblemController {
      */
     @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.PUT)
 	public String modifyTeste(@PathVariable Problem problem,@PathVariable Teste test){
-    	return " Modify a teste = "+ test.toString() + "from problem = " + problem.getCodigo();
+    	return " Modify a teste = "+ test.toString() + "from problem = " + problem.getCode();
 	}
     
     /**
@@ -156,5 +175,10 @@ public class ProblemController {
 	public String getSolution(@PathVariable String problemid,@PathVariable String solutionId){
     	return " Get a solution = "+ solutionId + " from problem = " + problemid;
 	}
+    
+    @RequestMapping(value="/statistics", method=RequestMethod.GET)
+    public String getStatistics(){
+    	return "Get all Statistics";
+    }
 
 }
