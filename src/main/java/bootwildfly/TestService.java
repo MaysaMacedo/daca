@@ -15,7 +15,8 @@ public class TestService {
 	}
 
 	public Teste getTests(Integer page, Integer size) {
-		return testRepo.findAll(new PageRequest(page,size));
+		return new Teste();
+		//return testRepo.findAll(new PageRequest(page,size));
 	}
 
 }
