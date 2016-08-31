@@ -37,12 +37,12 @@ public class Teste {
 	
 	enum TEST_TYPE{test_public, test_private}
 	
-	public Teste(String nome, String dica, String entrada, String saidaEsperada) {
+	public Teste(String name, String tip, String input, String expectedOutput) {
 		super();
-		this.name = nome;
-		this.tip = dica;
-		this.input = entrada;
-		this.expectedOutput = saidaEsperada;
+		this.name = name;
+		this.tip = tip;
+		this.input = input;
+		this.expectedOutput = expectedOutput;
 	}
 	
 	public Teste(){

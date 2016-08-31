@@ -25,7 +25,11 @@ import org.springframework.data.domain.Page;
 public class ProblemController {
 	
 	@Autowired
-	ProblemService problemService;
+	private ProblemService problemService;
+	
+	@Autowired
+	private TestService testService;
+	
 	protected static final String  DEFAULT_PAGE_SIZE = "100";
     protected static final String DEFAULT_PAGE_NUM = "0";
 	
@@ -80,6 +84,7 @@ public class ProblemController {
      */
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.PUT)
 	public void modifyProblem(@PathVariable String problemid, @RequestBody Problem problem){
+    	problem.setId(problemid);
     	problemService.updateProblem(problem);   	
 	}
     
@@ -90,9 +95,10 @@ public class ProblemController {
      * @return
      * 		String JSON com todos os testes visíveis ao usuario.
      */
-    @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.GET)
-	public String getTests(@PathVariable String problemid){
-    	return "Get some tests from problem = " + problemid;
+    @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.GET )
+	public Teste getTests(@PathVariable String problemid,@RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
+            @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size){
+    	return testService.getTests(page,size); //TODO - relacionamento do teste com o problema
 	}
     
     /**
@@ -105,8 +111,9 @@ public class ProblemController {
      * 		String JSON informando se a inserção foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
-	public String addTeste(@RequestBody Problem problem, @RequestBody Teste teste){
-    	return "New teste added to problem "+problem.getCode();
+	public String addTeste(@PathVariable String problemid, @RequestBody Teste teste){
+    	testService.addTest(teste);
+    	return "New teste added to problem "+ problemid;
 	}
     
     /**

@@ -1,7 +1,5 @@
 package bootwildfly;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,12 @@ public class ProblemService {
 	}
 	
 	public void updateProblem(Problem problem) {
-		problemRepo.save(problem);
+		Problem oldProblem = getProblem(problem.getId());
+		oldProblem.setCode(problem.getCode());
+		oldProblem.setDescription(problem.getDescription());
+		oldProblem.setName(problem.getName());
+		oldProblem.setTip(problem.getTip());
+		problemRepo.save(oldProblem);
 	}
 
 	public Problem getProblem(String problemid) {

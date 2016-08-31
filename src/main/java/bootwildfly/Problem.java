@@ -17,7 +17,7 @@ public class Problem {
 	@Id
     @GeneratedValue
     private String id;
-	
+
 	@Column
 	private String name;
 	
@@ -48,6 +48,10 @@ public class Problem {
 
 	public String getId() {
 		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getName() {
