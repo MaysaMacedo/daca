@@ -30,6 +30,9 @@ public class ProblemController {
 	@Autowired
 	private TestService testService;
 	
+	@Autowired
+	private SolutionService solutionService;
+	
 	protected static final String  DEFAULT_PAGE_SIZE = "100";
     protected static final String DEFAULT_PAGE_NUM = "0";
 	
@@ -96,9 +99,8 @@ public class ProblemController {
      * 		String JSON com todos os testes visíveis ao usuario.
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.GET )
-	public Teste getTests(@PathVariable String problemid,@RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
-            @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size){
-    	return testService.getTests(page,size); //TODO - relacionamento do teste com o problema
+	public List<Teste> getTests(@PathVariable String problemid){
+    	return testService.getTests(problemid);
 	}
     
     /**
@@ -112,7 +114,7 @@ public class ProblemController {
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
 	public String addTeste(@PathVariable String problemid, @RequestBody Teste teste){
-    	testService.addTest(teste);
+    	testService.addTest(teste, problemid);
     	return "New teste added to problem "+ problemid;
 	}
     
@@ -126,8 +128,9 @@ public class ProblemController {
      * 		String JSON descrevendo o teste requerido.
      */
     @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.GET)
-	public String getTeste(@PathVariable String problemid,@PathVariable String testid){
-    	return " Get a teste = "+ testid + " from problem = " + problemid;
+	public Teste getTeste(@PathVariable String problemid,@PathVariable String testid){
+    	return testService.getTest(testid);
+
 	}
     
     /**
@@ -139,8 +142,9 @@ public class ProblemController {
      * @return
      */
     @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.PUT)
-	public String modifyTeste(@PathVariable Problem problem,@PathVariable Teste test){
-    	return " Modify a teste = "+ test.toString() + "from problem = " + problem.getCode();
+	public Teste modifyTeste(@PathVariable Problem problemid,@PathVariable String testid,@RequestBody Teste test){
+    	test.setId(testid);
+    	return testService.updateTest(test);
 	}
     
     /**
@@ -153,8 +157,9 @@ public class ProblemController {
      * 		String JSON informando se a operação foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.POST)
-	public String addSolution(@RequestBody Problem problema, @RequestBody Solution solucao){
-    	return " Add a solution";
+	public String addSolution(@PathVariable String problemid, @RequestBody Solution solution){
+    	 solutionService.addSolution(problemid, solution);
+    	 return "New solution added to problem" + problemid;
 	}
     
     /**
@@ -165,8 +170,8 @@ public class ProblemController {
      * 		String JSON descrevendo todas as soluções daquele problema.
      */
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.GET)
-	public String getSolutions(@PathVariable String problemid){
-    	return " Get all solutions";
+	public List<Solution> getSolutions(@PathVariable String problemid){
+    	return solutionService.getSolutions(problemid);
 	}
     
     /**
@@ -179,8 +184,8 @@ public class ProblemController {
      * 		String JSON descrevendo a solução requerida.
      */
     @RequestMapping(value="/problem/{problemid}/solution/{solutionId}", method=RequestMethod.GET)
-	public String getSolution(@PathVariable String problemid,@PathVariable String solutionId){
-    	return " Get a solution = "+ solutionId + " from problem = " + problemid;
+	public Solution getSolution(@PathVariable String problemid,@PathVariable String solutionId){
+    	return solutionService.getSolution(solutionId);
 	}
     
     @RequestMapping(value="/statistics", method=RequestMethod.GET)

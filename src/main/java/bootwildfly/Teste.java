@@ -35,6 +35,34 @@ public class Teste {
     @JoinColumn(name = "problem_id")
 	private Problem problem;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	public String getExpectedOutput() {
+		return expectedOutput;
+	}
+
+	public void setExpectedOutput(String expectedOutput) {
+		this.expectedOutput = expectedOutput;
+	}
+
+	public Problem getProblem() {
+		return problem;
+	}
+
 	enum TEST_TYPE{test_public, test_private}
 	
 	public Teste(String name, String tip, String input, String expectedOutput) {
@@ -63,6 +91,10 @@ public class Teste {
 
 	public void setTip(String tip) {
 		this.tip = tip;
+	}
+
+	public void setProblem(Problem pro) {
+		this.problem = pro;
 	}
 
 }
