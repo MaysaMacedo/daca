@@ -79,9 +79,9 @@ public class ControllerRestTest {
     @Test
     public void testGetAllPublicTests() throws Exception {
     	problemController.addProblem(problema);
-    	problemController.addTeste(problema, teste);
-    	problemController.addTeste(problema, testeNovo);
-    	problemController.addTeste(problema, new Teste("teste tres","dica","entrada","saida"));
+//    	problemController.addTeste(problema, teste);
+//    	problemController.addTeste(problema, testeNovo);
+//    	problemController.addTeste(problema, new Teste("teste tres","dica","entrada","saida"));
     	given().when().get("/problem/1/test").then().statusCode(200);
     }
     
@@ -154,7 +154,7 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetTesteById() throws Exception {
-    	problemController.addTeste(problema, teste);
+//    	problemController.addTeste(problema, teste);
     	
     	Long idProblem = 1L;
     	Long idTeste = 1L;
@@ -198,7 +198,7 @@ public class ControllerRestTest {
     @Test
     public void testModifyTestById() throws Exception {
     	problemController.addProblem(problema);
-    	problemController.addTeste(problema, teste);
+//    	problemController.addTeste(problema, teste);
     	
     	Long idProblem = 1L;
     	Long idTeste = 1L;
