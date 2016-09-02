@@ -19,6 +19,8 @@ public class ProblemService {
 	}
 	
 
+	
+
 	public Page<Problem> getAllProblems(Integer page, Integer size) {
 		return problemRepo.findAll(new PageRequest(page,size));
 	}
@@ -34,6 +36,7 @@ public class ProblemService {
 		oldProblem.setDescription(problem.getDescription());
 		oldProblem.setName(problem.getName());
 		oldProblem.setTip(problem.getTip());
+		//oldProblem.setTests(problem.getTests());
 		problemRepo.save(oldProblem);
 	}
 

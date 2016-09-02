@@ -2,7 +2,9 @@ package src.test;
 
 import static com.jayway.restassured.RestAssured.given;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -30,8 +32,8 @@ public class ControllerRestTest {
 	@Value("${local.server.port}")
     private int port;
 	
-	private Problem problema;
-	private Problem problemaNovo;
+	private Problem problem;
+	private Problem newProblem;
 	private Teste teste;
 	private Teste testeNovo;
 	private Solution solucao;
@@ -42,11 +44,12 @@ public class ControllerRestTest {
 	 */
 	@Before
 	public void prepara() {
-		String name = "Problema facil";
-    	String description = "um problema muito facil";
+		String name = "Binary tree";
+    	String description = "level medium";
     	String codigo = "42";
-    	this.problema = new Problem(name, description, codigo);
-    	this.problemaNovo = new Problem("novo problema", description, codigo);
+    	String tip = "divide and conquer";
+    	this.problem = new Problem(name, description, codigo, tip);
+    	this.newProblem = new Problem("novo problema", description, codigo, tip);
     	
     	String nome = "teste teste";
     	String dica = "um teste";
@@ -55,10 +58,10 @@ public class ControllerRestTest {
     	this.teste = new Teste(nome, dica, entrada, saidaEsperada);
     	this.testeNovo = new Teste("novo nome", dica, entrada, saidaEsperada);
     	
-    	Map<String,String> resultEntradaSaida = new HashMap<>();
-        resultEntradaSaida.put("description", " Test binary search");
-        resultEntradaSaida.put("resultInputOutput", "teste");
-        this.solucao = new Solution(resultEntradaSaida);
+    	List<String> outputs = new ArrayList<String>();
+    	outputs.add(" Test binary search");
+    	outputs.add("teste");
+        this.solucao = new Solution("Solution body",outputs);
 	}
 	
     /**
@@ -78,10 +81,10 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetAllPublicTests() throws Exception {
-    	problemController.addProblem(problema);
-    	problemController.addTeste(problema, teste);
-    	problemController.addTeste(problema, testeNovo);
-    	problemController.addTeste(problema, new Teste("teste tres","dica","entrada","saida"));
+    	problemController.addProblem(problem);
+    	problemController.addTeste(problem.getId(), teste);
+    	problemController.addTeste(problem.getId(), testeNovo);
+    	problemController.addTeste(problem.getId(), new Teste("teste tres","dica","entrada","saida"));
     	given().when().get("/problem/1/test").then().statusCode(200);
     }
     
@@ -92,8 +95,8 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetAllPublicSolutions() throws Exception {
-    	problemController.addProblem(problema);
-    	problemController.addSolution(problema, solucao);
+    	problemController.addProblem(problem);
+    	problemController.addSolution(problem.getId(), solucao);
     	given().when().get("/problem/1/solution").then().statusCode(200);
     }
     
@@ -105,7 +108,7 @@ public class ControllerRestTest {
     	
         given()
         .contentType("application/json")
-        .body(problema)
+        .body(problem)
         .when().post("/problem").then()
         .statusCode(200);
     }
@@ -142,7 +145,7 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetProblemById() throws Exception {
-    	problemController.addProblem(problema);
+    	problemController.addProblem(problem);
     	
     	Long idProblem = 1L;
     	given().when().get("/problem/"+idProblem).then().statusCode(200);	
@@ -154,7 +157,7 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetTesteById() throws Exception {
-    	problemController.addTeste(problema, teste);
+    	problemController.addTeste(problem.getId(), teste);
     	
     	Long idProblem = 1L;
     	Long idTeste = 1L;
@@ -167,7 +170,7 @@ public class ControllerRestTest {
      */
     @Test
     public void testGetSolutionById() throws Exception {
-    	problemController.addSolution(problema, solucao);
+    	problemController.addSolution(problem.getId(), solucao);
     	
     	Long idProblem = 1L;
     	Long idSolution = 1L;
@@ -180,13 +183,13 @@ public class ControllerRestTest {
      */
     @Test
     public void testModifyProblemById() throws Exception {
-    	problemController.addProblem(problema);
+    	problemController.addProblem(problem);
     	
     	Long idProblem = 1L;
     	given().when().put("/problem/"+idProblem).then().statusCode(200);
     	given()
         .contentType("application/json")
-        .body(problemaNovo)
+        .body(newProblem)
         .when().post("/problem/"+idProblem).then()
         .statusCode(200);
     }
@@ -197,8 +200,8 @@ public class ControllerRestTest {
      */
     @Test
     public void testModifyTestById() throws Exception {
-    	problemController.addProblem(problema);
-    	problemController.addTeste(problema, teste);
+    	problemController.addProblem(problem);
+    	problemController.addTeste(problem.getId(), teste);
     	
     	Long idProblem = 1L;
     	Long idTeste = 1L;

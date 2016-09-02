@@ -1,13 +1,18 @@
 package bootwildfly;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Classe que descreve a solução fornecida pelo usuario.
@@ -15,29 +20,35 @@ import javax.persistence.ManyToOne;
  *
  */
 
-//@Entity
+@Entity
 public class Solution {
 	
-	//@Id
-    //@GeneratedValue
+	@Id
+    @GeneratedValue
     private String id;
 	
-	//@Column
-	private String description;
+	@Column
+	private String body;
 	
-	//@Column
-	private Map<String,String> resultInputOutput;
+	@ElementCollection
+	@Column
+	private List<String> outputs;
 	
-	//@Column
+	@Column
 	private boolean isCorrect;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
+    @JoinColumn(name = "problem_id")
 	private Problem problem;
-	
 
-	public Solution(Map<String, String> resultEntradaSaida) {
+	public Solution(String body, List<String> outputs ) {
 		super();
-		this.resultInputOutput = resultEntradaSaida;
+		this.body = body;
+		this.outputs = outputs;
+	}
+	
+	public Solution() {
+		
 	}
 	
 	public String getId() {
@@ -52,21 +63,6 @@ public class Solution {
 		this.problem = problem;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Map<String, String> getResultInputOutput() {
-		return resultInputOutput;
-	}
-
-	public void setResultInputOutput(Map<String, String> resultInputOutput) {
-		this.resultInputOutput = resultInputOutput;
-	}
 
 	public boolean isCorrect() {
 		return isCorrect;
@@ -74,6 +70,25 @@ public class Solution {
 
 	public void setCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
+	}
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public List<String> getOutputs() {
+		return outputs;
+	}
+
+	public void setOutputs(List<String> outputs) {
+		this.outputs = outputs;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

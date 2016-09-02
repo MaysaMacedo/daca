@@ -30,15 +30,16 @@ public class Problem {
 	@Column
 	private String tip;
 	
-	@OneToMany
-	private List<Teste> tests; 
+//	@OneToMany
+//	private List<Teste> tests; 
 	
 
-	public Problem(String nome, String descricao, String codigo) {
+	public Problem(String name, String descritption, String code, String tip ) {
 		super();
-		this.name = nome;
-		this.description = descricao;
-		this.code = codigo;
+		this.name = name;
+		this.description = descritption;
+		this.code = code;
+		this.tip = tip;
 
 	}
 
@@ -86,12 +87,16 @@ public class Problem {
 		this.tip = tip;
 	}
 
-	public List<Teste> getTests() {
-		return tests;
-	}
-
-	public void setTests(List<Teste> tests) {
-		this.tests = tests;
-	}
+//	public List<Teste> getTests() {
+//		return tests;
+//	}
+//
+//	public void setTests(List<Teste> tests) {
+//		this.tests = tests;
+//	}
+//	
+//	public void addTeste(Teste test) {
+//		this.tests.add(test);
+//	}
 
 }
