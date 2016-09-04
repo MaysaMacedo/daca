@@ -10,9 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TestRepository extends CrudRepository<Teste, String> {
 
-	//Page<Teste> findAB(Pageable pageable);
-
-	
-	//List<Teste> findByProblem(Problem problem);
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -28,6 +30,7 @@ public class Solution {
     private String id;
 	
 	@Column
+	@NotBlank
 	private String body;
 	
 	@ElementCollection
@@ -37,9 +40,18 @@ public class Solution {
 	@Column
 	private boolean isCorrect;
 	
-	@ManyToOne()
-    @JoinColumn(name = "problem_id")
-	private Problem problem;
+//	@ManyToOne()
+//    @JoinColumn(name = "problem_id")
+	@Column
+	private String problemid;
+
+	public String getProblem() {
+		return problemid;
+	}
+
+	public void setProblem(String problem) {
+		this.problemid = problem;
+	}
 
 	public Solution(String body, List<String> outputs ) {
 		super();
@@ -55,13 +67,13 @@ public class Solution {
 		return id;
 	}
 
-	public Problem getProblem() {
-		return problem;
-	}
-
-	public void setProblem(Problem problem) {
-		this.problem = problem;
-	}
+//	public Problem getProblem() {
+//		return problem;
+//	}
+//
+//	public void setProblem(Problem problem) {
+//		this.problem = problem;
+//	}
 	
 
 	public boolean isCorrect() {

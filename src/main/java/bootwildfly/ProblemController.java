@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 
 
@@ -63,10 +66,15 @@ public class ProblemController {
      * 		
      */
     @RequestMapping(value="/problem", method=RequestMethod.POST)
-	public Problem addProblem(@RequestBody Problem problem ) {
-        
-        return problemService.addProblem(problem);
-	}
+	public ResponseEntity<?> addProblem(@Valid @RequestBody Problem problem,
+			BindingResult bindingResult ) {
+    	if(bindingResult.hasErrors()){
+    		return ResponseEntity.badRequest().body("Invalid object");
+    	} else {
+    		return ResponseEntity.ok(problemService.addProblem(problem));
+    	}
+    }
+    
     
     /**
      * Recupera um problema dado seu identificador.
@@ -105,8 +113,13 @@ public class ProblemController {
      * 		String JSON com todos os testes visíveis ao usuario.
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.GET )
-	public List<Teste> getTests(@PathVariable String problemid){
-    	return testService.getTests(problemid);
+	public ResponseEntity<?> getTests(@PathVariable String problemid){
+    	
+    	if(problemService.getProblem(problemid) == null)
+    		return new ResponseEntity<>("Problem "+problemid+" not found", HttpStatus.NOT_FOUND);
+    	else {
+    		return ResponseEntity.ok(testService.getTests(problemid));
+    	}
 	}
     
     /**
@@ -119,17 +132,17 @@ public class ProblemController {
      * 		String JSON informando se a inserção foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
-	public Teste addTeste(@PathVariable String problemid, @RequestBody Teste teste){
+	public ResponseEntity<?>  addTeste(@PathVariable String problemid,@Valid @RequestBody Teste teste,
+			BindingResult bindingResult){
+
+    	if(bindingResult.hasErrors()){
+    		return ResponseEntity.badRequest().body("Invalid object");
+    	} else {
+    		return ResponseEntity.ok(testService.addTest(teste, problemid));
+    		}
+    	}
     	
-//    		Problem pro = problemService.getProblem(problemid);
-//    		Teste testinho = testService.addTest(teste);
-//    		pro.addTeste(testinho);
-//    		problemService.updateProblem(pro);
-//    		//test.setProblem(pro);
-//    		return testinho;
-    	return testService.addTest(teste, problemid);
-    	
-	}
+
     
     /**
      * Recupera um teste dado seu identificador e o do seu respectivo problema.
@@ -141,8 +154,13 @@ public class ProblemController {
      * 		String JSON descrevendo o teste requerido.
      */
     @RequestMapping(value="/problem/{problemid}/test/{testid}", method=RequestMethod.GET)
-	public Teste getTeste(@PathVariable String problemid,@PathVariable String testid){
-    	return testService.getTest(testid);
+	public ResponseEntity<?>  getTeste(@PathVariable String problemid,@PathVariable String testid){
+    	if(problemService.getProblem(problemid) == null)
+    		return new ResponseEntity<>("Problem "+problemid+" not found", HttpStatus.NOT_FOUND);
+    	else {
+    		return ResponseEntity.ok(testService.getTest(testid));
+    	}
+    	
 
 	}
     
@@ -170,9 +188,16 @@ public class ProblemController {
      * 		String JSON informando se a operação foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.POST)
-	public Solution addSolution(@PathVariable String problemid, @RequestBody Solution solution){
-    	 return solutionService.addSolution(problemid, solution);
-    	 //return "New solution added to problem" + problemid;
+	public ResponseEntity<?> addSolution(@PathVariable String problemid,@Valid @RequestBody Solution solution,
+			BindingResult bindingResult){
+    	if(bindingResult.hasErrors()){
+    		return ResponseEntity.badRequest().body("Invalid object");
+    	} else if(problemService.getProblem(problemid) == null) {
+    		return new ResponseEntity<>("Problem "+problemid+" not found", HttpStatus.NOT_FOUND);
+    	} else {
+    		
+    		return ResponseEntity.ok(solutionService.addSolution(problemid, solution));
+    	}
 	}
     
     /**
@@ -183,8 +208,12 @@ public class ProblemController {
      * 		String JSON descrevendo todas as soluções daquele problema.
      */
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.GET)
-	public List<Solution> getSolutions(@PathVariable String problemid){
-    	return solutionService.getSolutions(problemid);
+	public ResponseEntity<?> getSolutions(@PathVariable String problemid){
+    	if(problemService.getProblem(problemid) == null)
+    		return new ResponseEntity<>("Problem "+problemid+" not found", HttpStatus.NOT_FOUND);
+    	else {
+    		return ResponseEntity.ok(solutionService.getSolutions(problemid));
+    	}
 	}
     
     /**
@@ -197,8 +226,12 @@ public class ProblemController {
      * 		String JSON descrevendo a solução requerida.
      */
     @RequestMapping(value="/problem/{problemid}/solution/{solutionId}", method=RequestMethod.GET)
-	public Solution getSolution(@PathVariable String problemid,@PathVariable String solutionId){
-    	return solutionService.getSolution(solutionId);
+	public ResponseEntity<?> getSolution(@PathVariable String problemid,@PathVariable String solutionId){
+    	if(problemService.getProblem(problemid) == null)
+    		return new ResponseEntity<>("Problem "+problemid+" not found", HttpStatus.NOT_FOUND);
+    	else {
+    		return ResponseEntity.ok(solutionService.getSolution(solutionId));
+    	}
 	}
     
     @RequestMapping(value="/statistics", method=RequestMethod.GET)
