@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 /**
  * Classe que descreve os Testes do sistema.
  * Os testes estão vinculados a um Problema, que faz uso do
@@ -30,38 +33,6 @@ public class Teste {
 	
 	@Column
 	private String expectedOutput;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "problem_id")
-	private Problem problem;
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
-
-	public String getExpectedOutput() {
-		return expectedOutput;
-	}
-
-	public void setExpectedOutput(String expectedOutput) {
-		this.expectedOutput = expectedOutput;
-	}
-
-	public Problem getProblem() {
-		return problem;
-	}
 
 	enum TEST_TYPE{test_public, test_private}
 	
@@ -92,9 +63,31 @@ public class Teste {
 	public void setTip(String tip) {
 		this.tip = tip;
 	}
-
-	public void setProblem(Problem pro) {
-		this.problem = pro;
+	
+	public String getId() {
+		return id;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	public String getExpectedOutput() {
+		return expectedOutput;
+	}
+
+	public void setExpectedOutput(String expectedOutput) {
+		this.expectedOutput = expectedOutput;
+	}
+
+
 
 }

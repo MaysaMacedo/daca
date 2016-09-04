@@ -1,19 +1,25 @@
 package bootwildfly;
 
 import java.util.List;
+
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.ServletContext;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
 
 
@@ -57,11 +63,9 @@ public class ProblemController {
      * 		
      */
     @RequestMapping(value="/problem", method=RequestMethod.POST)
-	public String addProblem(@RequestBody Problem problem ) {
+	public Problem addProblem(@RequestBody Problem problem ) {
         
-        problemService.addProblem(problem);
-
-        return "creation successful: " + String.valueOf(problem.getId());
+        return problemService.addProblem(problem);
 	}
     
     /**
@@ -70,10 +74,12 @@ public class ProblemController {
      * 		Numero identificador do problema.
      * @return
      * 		String JSON com informações sobre o problema requerido.
+     * @throws ProblemNotFoundException 
      */
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.GET)
-	public Problem getProblem(@PathVariable String problemid){
-    	return problemService.getProblem(problemid);
+	public Problem getProblem(@PathVariable String problemid){ 
+    	Problem pro = problemService.getProblem(problemid);
+    	return pro;
 	}
     
     /**
@@ -86,9 +92,9 @@ public class ProblemController {
      * 		String JSON informando se o problema em questão foi modificado.
      */
     @RequestMapping(value="/problem/{problemid}", method=RequestMethod.PUT)
-	public void modifyProblem(@PathVariable String problemid, @RequestBody Problem problem){
+	public Problem modifyProblem(@PathVariable String problemid, @RequestBody Problem problem){
     	problem.setId(problemid);
-    	problemService.updateProblem(problem);   	
+    	return problemService.updateProblem(problem);   	
 	}
     
     /**
@@ -113,9 +119,16 @@ public class ProblemController {
      * 		String JSON informando se a inserção foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/test", method=RequestMethod.POST)
-	public String addTeste(@PathVariable String problemid, @RequestBody Teste teste){
-    	testService.addTest(teste, problemid);
-    	return "New teste added to problem "+ problemid;
+	public Teste addTeste(@PathVariable String problemid, @RequestBody Teste teste){
+    	
+//    		Problem pro = problemService.getProblem(problemid);
+//    		Teste testinho = testService.addTest(teste);
+//    		pro.addTeste(testinho);
+//    		problemService.updateProblem(pro);
+//    		//test.setProblem(pro);
+//    		return testinho;
+    	return testService.addTest(teste, problemid);
+    	
 	}
     
     /**
@@ -157,9 +170,9 @@ public class ProblemController {
      * 		String JSON informando se a operação foi bem sucedida.
      */
     @RequestMapping(value="/problem/{problemid}/solution", method=RequestMethod.POST)
-	public String addSolution(@PathVariable String problemid, @RequestBody Solution solution){
-    	 solutionService.addSolution(problemid, solution);
-    	 return "New solution added to problem" + problemid;
+	public Solution addSolution(@PathVariable String problemid, @RequestBody Solution solution){
+    	 return solutionService.addSolution(problemid, solution);
+    	 //return "New solution added to problem" + problemid;
 	}
     
     /**
@@ -192,5 +205,5 @@ public class ProblemController {
     public String getStatistics(){
     	return "Get all Statistics";
     }
-
+    
 }

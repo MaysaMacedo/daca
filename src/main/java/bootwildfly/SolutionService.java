@@ -14,10 +14,10 @@ public class SolutionService {
 	@Autowired
 	ProblemService problemServ;
 	
-	public void addSolution(String problemid, Solution solution) {
+	public Solution addSolution(String problemid, Solution solution) {
 		Problem pro = problemServ.getProblem(problemid);
 		solution.setProblem(pro);
-		solutionRepo.save(solution);
+		return solutionRepo.save(solution);
 	}
 
 	public List<Solution> getSolutions(String problemid) {

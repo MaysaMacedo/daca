@@ -1,12 +1,18 @@
 package bootwildfly;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+
 /**
  * Classe que descreve um Problema do Sistema.
  *
@@ -30,8 +36,9 @@ public class Problem {
 	@Column
 	private String tip;
 	
-//	@OneToMany
-//	private List<Teste> tests; 
+	@Column
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Teste> tests;
 	
 
 	public Problem(String name, String descritption, String code, String tip ) {
@@ -87,16 +94,16 @@ public class Problem {
 		this.tip = tip;
 	}
 
-//	public List<Teste> getTests() {
-//		return tests;
-//	}
-//
-//	public void setTests(List<Teste> tests) {
-//		this.tests = tests;
-//	}
-//	
-//	public void addTeste(Teste test) {
-//		this.tests.add(test);
-//	}
+	public List<Teste> getTests() {
+		return tests;
+	}
+
+	public void setTests(List<Teste> tests) {
+		this.tests = tests;
+	}
+	
+	public void addTeste(Teste test) {
+		this.tests.add(test);
+	}
 
 }
