@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SolutionService {
@@ -14,19 +15,17 @@ public class SolutionService {
 	@Autowired
 	ProblemService problemServ;
 	
+	@Transactional
 	public Solution addSolution(String problemid, Solution solution) {
-		Problem pro = problemServ.getProblem(problemid);
-		solution.setProblem(pro);
+		solution.setProblem(problemid);
 		return solutionRepo.save(solution);
 	}
 
 	public List<Solution> getSolutions(String problemid) {
-		Problem pro = problemServ.getProblem(problemid);
-		return solutionRepo.findByProblem(pro);
+		return solutionRepo.findByProblemid(problemid);
 	}
 
-	public Solution getSolution(String solutionId) {
+	public Solution getSolution(String solutionId) {		
 		return solutionRepo.findOne(solutionId);
 	}
-
 }

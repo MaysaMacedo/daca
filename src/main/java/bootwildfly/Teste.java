@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotBlank;
 /**
  * Classe que descreve os Testes do sistema.
  * Os testes estão vinculados a um Problema, que faz uso do
@@ -23,15 +24,19 @@ public class Teste {
     private String id;
 	
 	@Column
+	@NotBlank
 	private String name;
 	
 	@Column
+	@NotBlank
 	private String tip;
 	
 	@Column
+	@NotBlank
 	private String input;
 	
 	@Column
+	@NotBlank
 	private String expectedOutput;
 
 	enum TEST_TYPE{test_public, test_private}

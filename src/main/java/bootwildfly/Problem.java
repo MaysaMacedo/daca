@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Classe que descreve um Problema do Sistema.
@@ -25,15 +26,19 @@ public class Problem {
     private String id;
 
 	@Column
+	@NotBlank
 	private String name;
 	
 	@Column
+	@NotBlank
 	private String description;
 	
 	@Column
+	@NotBlank
 	private String code;
 	
 	@Column
+	@NotBlank
 	private String tip;
 	
 	@Column

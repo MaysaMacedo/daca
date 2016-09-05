@@ -45,11 +45,6 @@ public class TestService {
 		oldTest.setExpectedOutput(test.getExpectedOutput());
 		
 		return testRepo.save(oldTest);
-		
-	}
-
-	public Teste addTest(Teste teste) {
-		return testRepo.save(teste);
 	}
 
 }

@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface SolutionRepository extends CrudRepository<Solution, String> {
 
-	List<Solution> findByProblem(Problem pro);
-	
+	List<Solution> findByProblemid(String pro);	
 
 }
