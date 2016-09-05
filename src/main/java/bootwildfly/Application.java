@@ -43,9 +43,10 @@ public class Application extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	http.authorizeRequests().antMatchers("/**", "/index.html", "/login", "/", "/problem/**")
-        .permitAll().anyRequest().authenticated()
-        .and().csrf().disable()
+    	http
+//    	.authorizeRequests().antMatchers("/**", "/index.html", "/login", "/", "/problem/**")
+//        .permitAll().anyRequest().authenticated()
+        .csrf().disable()
 //        .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).
 //		// do not use any default headers unless explicitly listed
     	.headers()
