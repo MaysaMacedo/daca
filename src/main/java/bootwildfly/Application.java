@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
  * Classe que constroi a aplicação Spring Boot.
  *
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 @SpringBootApplication
 @EnableOAuth2Sso
+@EnableSwagger2
 @RestController
 public class Application extends WebSecurityConfigurerAdapter {
 
