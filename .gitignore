@@ -1,3 +1,11 @@
+## Ignore Mac OS Stuff
+.DS_Store
+
+#################
+## Directories
+#################
+
+frontend/node_modules/
 .classpath
 .project
 .settings/

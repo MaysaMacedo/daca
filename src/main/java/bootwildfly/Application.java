@@ -8,12 +8,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -55,6 +59,22 @@ public class Application extends WebSecurityConfigurerAdapter {
     	.headers()
 		.defaultsDisabled()
 		.cacheControl();
+    }
+    
+    @Bean
+    public CorsFilter corsFilter() {
+    	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    	CorsConfiguration config = new CorsConfiguration();
+    	config.setAllowCredentials(true);
+    	config.addAllowedOrigin("*");
+    	config.addAllowedHeader("*");
+    	config.addAllowedMethod("GET");
+    	config.addAllowedMethod("PUT");
+    	config.addAllowedMethod("POST");
+    	source.registerCorsConfiguration("/**", config);
+    	return new CorsFilter(source);
+
+    	
     }
 }
 
