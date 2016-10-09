@@ -20,8 +20,9 @@ public class ProblemService {
 		
 	}
 	
-	public Page<Problem> getAllProblems(Integer page, Integer size) {
-		return problemRepo.findAll(new PageRequest(page,size));
+	public Iterable<Problem> getAllProblems(Integer page, Integer size) {
+		//return problemRepo.findAll(new PageRequest(page,size));
+		return problemRepo.findAll();
 	}
 
 	@Transactional

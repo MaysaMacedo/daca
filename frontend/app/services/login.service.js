@@ -30,6 +30,24 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     var headers1 = new http_1.Headers({ 'Content-type': "application/json" });
                     return this.http.post(tokenUrl, JSON.stringify(model), { headers: headers1 });
                 };
+                // sendToken(token){
+                //   let tokenUrl = 'http://localhost:8080/user/login';
+                //   let headers1 = new Headers({'Content-type':"application/json"});
+                //
+                //   return this.http.post(tokenUrl, JSON.stringify(model), {headers:headers1});
+                // }
+                LoginService.prototype.checkLogin = function () {
+                    if (localStorage.getItem("currentUserName") != "") {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                };
+                LoginService.prototype.logout = function () {
+                    localStorage.setItem("currentUserName", "");
+                    alert("you just logged out.");
+                };
                 LoginService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

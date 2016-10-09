@@ -1,0 +1,19 @@
+<div class="container">
+  <div class='problems-list'>
+    <div clas="ui grid">
+       <div class="ui horizontal segments" >
+         <span *ngFor="#problem of pros" >
+           <div class="ui segment" (click)="onSelect(problem)">
+                 <div class="twelve wide column left aligned">
+                     <strong>{{problem.name}}</strong><br/>
+                 </div>
+                 <div class="four wide column right aligned">
+                   {{problem.description}}
+                 </div>
+             </div>
+              </span>
+           </div>
+
+        </div>
+      </div>
+  </div>

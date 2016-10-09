@@ -20,4 +20,17 @@ export  class LoginService{
     //
     //   return this.http.post(tokenUrl, JSON.stringify(model), {headers:headers1});
     // }
+
+    checkLogin() {
+      if(localStorage.getItem("currentUserName") != ""){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    logout() {
+      localStorage.setItem("currentUserName", "");
+      alert("you just logged out.");
+    }
   }

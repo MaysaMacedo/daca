@@ -53,7 +53,7 @@ public class ProblemController {
     
     @RequestMapping(value="/problem", method=RequestMethod.GET)
     @ApiOperation(value = "Retorna todos os problemas do sistema", notes = "Retorna todos os problemas do sistema")
-	public Page<Problem> getProblems( @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
+	public Iterable<Problem> getProblems( @RequestParam(value = "page", required = true, defaultValue = DEFAULT_PAGE_NUM) Integer page,
             @RequestParam(value = "size", required = true, defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
     	return problemService.getAllProblems(page, size);
 	}

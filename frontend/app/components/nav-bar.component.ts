@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {LoginService} from '../services/login.service';
 
 @Component({
   selector: "nav-bar",
@@ -8,5 +9,12 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 })
 
 export class NavBar {
+  constructor(private loginService: LoginService){}
+
+  onClick(){
+    if(this.loginService.checkLogin()) {
+      this.loginService.logout();
+    }
+  }
 
 }

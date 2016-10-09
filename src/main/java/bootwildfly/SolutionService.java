@@ -33,7 +33,7 @@ public class SolutionService {
 
 	public Long countSolved() {
 		Long totalSolved = 0L;
-		Page<Problem> allProblems = problemServ.getAllProblems(100, 0);
+		Iterable<Problem> allProblems = problemServ.getAllProblems(100, 0);
 		for (Iterator iterator = allProblems.iterator(); iterator.hasNext();) {
 			Problem problema = (Problem) iterator.next();
 			String problemId = problema.getId();

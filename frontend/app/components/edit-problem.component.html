@@ -1,0 +1,30 @@
+<div class="container">
+  <form *ngIf="!problemAdded" class="ui form" (ngSubmit) = "onSubmit()" #addProblemForm = "ngForm">
+    <h2 class="ui dividing header"> Add problem</h2>
+    <div class="field">
+      <div class="two fields">
+        <div class="field">
+          <label>* Problem Name</label>
+          <input type = "text" name = "problemName" placeholder="Problem Name" [(ngModel)] = "newProblem.name" required/>
+        </div>
+        <div class="field">
+          <label>* Problem Description</label>
+          <input type = "text" name = "description" placeholder="Problem description" [(ngModel)] = "newProblem.description" required/>
+        </div>
+
+      </div>
+    </div>
+    <div class="field">
+      <label>* Code</label>
+      <input type = "text" name = "problemCode" placeholder="Problem code" [(ngModel)] = "newProblem.code" required/>
+    </div>
+    <div class="field">
+      <label>* Tip</label>
+      <input type = "text" name = "problemTip" placeholder="Problem tip" [(ngModel)] = "newProblem.tip" required/>
+    </div>
+    <button type = "submit" class="ui button">Submit</button>
+  </form>
+  <div *ngIf="problemAdded">
+    <h1>Add problem success!</h1>
+  </div>
+</div>

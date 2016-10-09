@@ -9,13 +9,19 @@
     <a class="item" [routerLink]= "['Home']">
       Home
     </a>
+    <a class="item" [routerLink]= "['Problems']">
+      Problems
+    </a>
+    <a class="item" [routerLink]= "['EditProblem']">
+      Edit Problem
+    </a>
   </div>
   <div class="right menu">
-    <a class = "item" [routerLink]= "['Register']">
+    <a *ngIf= "!loginService.checkLogin()"class = "item" [routerLink]= "['Register']">
       Register
     </a>
-    <a class = "item" [routerLink]= "['Login']">
-      Login
+    <a class = "item" [routerLink]= "['Login']" (click) = "onClick() ">
+      {{loginService.checkLogin()? 'Logout':'Login'}}
     </a>
   </div>
 
