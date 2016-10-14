@@ -1,0 +1,25 @@
+<div class="ui inverted fixed menu">
+  <div class="ui secondary pointing menu">
+    <a class="item" routerLink="/home" routerLinkActive="active">
+      <h2> Dirlididi</h2>
+    </a>
+    <a class="item" routerLink="/home" routerLinkActive="active">
+      Welcome
+    </a>
+    <a class="item" routerLink="/problem" routerLinkActive="active">
+      Problems
+    </a>
+    <a class="item" routerLink="/edit-problem" routerLinkActive="active">
+      Edit Problem
+    </a>
+  </div>
+  <div class="right menu">
+    <a *ngIf= "!loginService.checkLogin()"class = "item" routerLink="/register" routerLinkActive="active">
+      Register
+    </a>
+    <a class = "item" routerLink="/login" routerLinkActive="active" (click) = "onClick() ">
+      {{loginService.checkLogin()? 'Logout':'Login'}}
+    </a>
+  </div>
+
+</div>
