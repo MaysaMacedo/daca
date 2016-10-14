@@ -1,0 +1,16 @@
+  <div class="container">
+  <div class='problems-list'>
+    <span *ngFor="#problem of pros" >
+    <div class="ui middle aligned selection list">
+      <div class="item" (click)="onSelect(problem)">
+        <i class="tasks icon"></i>
+        <div class="content" >
+          <a class="header">{{problem.name}}</a>
+          <div class="description">{{problem.description}}</div>
+        </div>
+      </div>
+    </div>
+      </span>
+  </div>
+</div>
+
