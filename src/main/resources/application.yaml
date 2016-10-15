@@ -13,3 +13,10 @@ security:
       clientAuthenticationScheme: form
     resource:
       userInfoUri: https://graph.facebook.com/me
+kafka:
+  broker:
+    address: localhost:9092
+  zookeeper:
+    connect: localhost:2181
+  topic: si.topic
+  messageKey: si.key
