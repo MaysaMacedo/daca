@@ -4,9 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.kafka.support.KafkaNull;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import kafka.Application;
 
 @Service
 public class SolutionService {
@@ -48,5 +54,23 @@ public class SolutionService {
 			}
 		}
 		return totalSolved;
+	}
+	
+	/**
+	 * Send a Solution to Kafka
+	 * @param solution
+	 */
+	public void sendToKafka(Solution solution) {
+		ConfigurableApplicationContext context
+		= new SpringApplicationBuilder(Application.class)
+		.web(false)
+		.run();
+		MessageChannel toKafka = context.getBean("toKafka", MessageChannel.class);
+		for (int i = 0; i < 10; i++) {
+			toKafka.send(new GenericMessage<>(solution.toString()));
+		}
+		toKafka.send(new GenericMessage<>(KafkaNull.INSTANCE));
+
+		context.close();
 	}
 }

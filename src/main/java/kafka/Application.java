@@ -57,10 +57,6 @@ import kafka.common.TopicExistsException;
 import kafka.utils.ZKStringSerializer$;
 import kafka.utils.ZkUtils;
 
-/**
- * @author Gary Russell
- * @since 4.2
- */
 @SpringBootApplication
 public class Application {
 
@@ -86,6 +82,7 @@ public class Application {
 			toKafka.send(new GenericMessage<>("foo" + i));
 		}
 		toKafka.send(new GenericMessage<>(KafkaNull.INSTANCE));
+		
 		PollableChannel fromKafka = context.getBean("received", PollableChannel.class);
 		Message<?> received = fromKafka.receive(10000);
 		while (received != null) {
